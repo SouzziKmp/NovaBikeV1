@@ -47,9 +47,9 @@ footer {
 
 
 
-
 body {/*body tuneado*/
-    background-color: #565558; /* gris claro */
+    background-color: #565558;
+    min-height: 100vh;
 }
 
 .texto-NovaBike {
@@ -70,4 +70,10 @@ body {/*body tuneado*/
 }
 
 
-
+main {
+  background-image: url('test.jpg');
+  background-repeat:no-repeat;
+  background-position: center center;
+  background-size: cover;
+  min-height: 100%;
+}
