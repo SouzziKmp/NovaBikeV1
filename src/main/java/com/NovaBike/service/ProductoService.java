@@ -17,4 +17,10 @@ public class ProductoService {
     public List<Producto> getProductos() {
         return productoRepository.findAll();
     }
+    
+     @Transactional
+    public void save(Producto producto) {
+        productoRepository.save(producto);
+    }
+    
 }

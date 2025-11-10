@@ -76,6 +76,19 @@ public class ProductoController {
         return "producto/listado";
 
     }
+    
+    
+     @GetMapping("/agregar")
+    public String agregar(Model model) {
+        model.addAttribute("producto", new Producto());
+        return "producto/agregar";
+    }
+
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute Producto producto) {
+        productoService.save(producto);
+        return "redirect:/producto/listado";
+    }
  
     @PostMapping("/favorito/{id}")
 
