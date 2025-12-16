@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{general/fragmentos :: head}">
+    <title>Reporte de Stock | NovaBike</title>
+
+    <!-- Estilos para visualización e impresión -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #222;
+            color: white;
+        }
+
+        /* Ocultar botones y elementos no deseados en impresión */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            header,
+            footer {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-white">
+
+<!-- HEADER -->
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<div class="container py-5">
+
+    <h2 class="fw-bold text-white">Reporte de Stock – NovaBike</h2>
+
+    <p class="text-center text-white-50 mb-4">
+        Generado el:
+        <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+    </p>
+
+    <!-- TABLA DE PRODUCTOS -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-dark bg-light">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio (₡)</th>
+                    <th>Descuento (%)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="p : ${productos}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.nombre}"></td>
+                    <td th:text="${p.descripcion}"></td>
+
+                    <td>
+                        <span th:if="${p.descuento == null or p.descuento == 0}">
+                            ₡[[${#numbers.formatDecimal(p.precio, 0, 'POINT', 2, 'COMMA')}]]
+                        </span>
+
+                        <span th:if="${p.descuento != null and p.descuento > 0}">
+                            <span class="text-decoration-line-through text-danger">
+                                ₡[[${#numbers.formatDecimal(p.precio, 0, 'POINT', 2, 'COMMA')}]]
+                            </span>
+                            <br>
+                            <span class="fw-bold text-success">
+                                ₡[[${@productoService.calcularPrecioConDescuento(p)}]]
+                            </span>
+                        </span>
+                    </td>
+
+                    <td th:text="${p.descuento != null ? p.descuento : 0}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="text-center mt-4 no-print">
+        <button onclick="window.print()" class="btn btn-light fw-bold me-3">
+            🖨 Imprimir / Exportar PDF
+        </button>
+
+        <a th:href="@{/producto/listado}" class="btn btn-outline-light fw-bold">
+            ⬅ Volver a la Gestión
+        </a>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="no-print" th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>

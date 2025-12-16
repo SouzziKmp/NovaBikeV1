@@ -43,52 +43,64 @@
     </div>
 </form>
 
-<!-- Filtro por precio (columna izquierda) -->
+<!-- Filtro por precio (Opción C Integrada) -->
 <div th:fragment="filtroPrecio" class="col-12 col-md-3 mb-4">
-    <div class="card p-3" style="background:#eac29b; border-radius:10px;">
-        <h5 class="fw-bold mb-3">Filtrar por precio</h5>
 
-        <!-- RANGO 1 -->
-        <form th:action="@{/producto/listado}" method="get" class="mb-2">
-            <input type="hidden" name="min" value="1000"/>
-            <input type="hidden" name="max" value="5000"/>
-            <button type="submit" class="btn btn-outline-dark w-100">₡1 000 – ₡5 000</button>
-        </form>
+    <div class="card shadow-sm" style="border-radius:12px; overflow:hidden;">
 
-        <!-- RANGO 2 -->
-        <form th:action="@{/producto/listado}" method="get" class="mb-2">
-            <input type="hidden" name="min" value="5000"/>
-            <input type="hidden" name="max" value="15000"/>
-            <button type="submit" class="btn btn-outline-dark w-100">₡5 000 – ₡15 000</button>
-        </form>
+        <!-- Barra roja -->
+        <div style="background:#c62828; padding:10px 15px;">
+            <h5 class="fw-bold text-white mb-0" style="font-family:'Poppins', sans-serif;">
+                Filtrar por precio
+            </h5>
+        </div>
 
-        <!-- RANGO 3 -->
-        <form th:action="@{/producto/listado}" method="get" class="mb-2">
-            <input type="hidden" name="min" value="15000"/>
-            <input type="hidden" name="max" value="30000"/>
-            <button type="submit" class="btn btn-outline-dark w-100">₡15 000 – ₡30 000</button>
-        </form>
+        <!-- Cuerpo blanco -->
+        <div class="p-3" style="background:white;">
 
-        <!-- RANGO 4 -->
-        <form th:action="@{/producto/listado}" method="get" class="mb-2">
-            <input type="hidden" name="min" value="20000"/>
-            <input type="hidden" name="max" value="40000"/>
-            <button type="submit" class="btn btn-outline-dark w-100">₡20 000 – ₡40 000</button>
-        </form>
+            <!-- RANGO 1 -->
+            <form th:action="@{/producto/listado}" method="get" class="mb-2">
+                <input type="hidden" name="min" value="1000"/>
+                <input type="hidden" name="max" value="50000"/>
+                <button type="submit" class="btn btn-outline-dark w-100">₡1 000 – ₡50 000</button>
+            </form>
 
-        <!-- RANGO 5 -->
-        <form th:action="@{/producto/listado}" method="get" class="mb-2">
-            <input type="hidden" name="min" value="40000"/>
-            <input type="hidden" name="max" value="60000"/>
-            <button type="submit" class="btn btn-outline-dark w-100">₡40 000 – ₡60 000</button>
-        </form>
+            <!-- RANGO 2 -->
+            <form th:action="@{/producto/listado}" method="get" class="mb-2">
+                <input type="hidden" name="min" value="50000"/>
+                <input type="hidden" name="max" value="150000"/>
+                <button type="submit" class="btn btn-outline-dark w-100">₡50 000 – ₡150 000</button>
+            </form>
 
-        <!-- RANGO 6 -->
-        <form th:action="@{/producto/listado}" method="get" class="mb-2">
-            <input type="hidden" name="min" value="60000"/>
-            <input type="hidden" name="max" value="100000"/>
-            <button type="submit" class="btn btn-outline-dark w-100">₡60 000 – ₡100 000</button>
-        </form>
+            <!-- RANGO 3 -->
+            <form th:action="@{/producto/listado}" method="get" class="mb-2">
+                <input type="hidden" name="min" value="150000"/>
+                <input type="hidden" name="max" value="300000"/>
+                <button type="submit" class="btn btn-outline-dark w-100">₡150 000 – ₡300 000</button>
+            </form>
+
+            <!-- RANGO 4 -->
+            <form th:action="@{/producto/listado}" method="get" class="mb-2">
+                <input type="hidden" name="min" value="300000"/>
+                <input type="hidden" name="max" value="500000"/>
+                <button type="submit" class="btn btn-outline-dark w-100">₡300 000 – ₡500 000</button>
+            </form>
+
+            <!-- RANGO 5 -->
+            <form th:action="@{/producto/listado}" method="get" class="mb-2">
+                <input type="hidden" name="min" value="500000"/>
+                <input type="hidden" name="max" value="700000"/>
+                <button type="submit" class="btn btn-outline-dark w-100">₡500 000 – ₡700 000</button>
+            </form>
+
+            <!-- RANGO 6 -->
+            <form th:action="@{/producto/listado}" method="get" class="mb-2">
+                <input type="hidden" name="min" value="700000"/>
+                <input type="hidden" name="max" value="1000000"/>
+                <button type="submit" class="btn btn-outline-dark w-100">₡700 000 – ₡1 000 000</button>
+            </form>
+
+        </div>
     </div>
 </div>
 
@@ -116,17 +128,14 @@
                             <p class="fw-bold text-primary"
                                th:text="'₡' + ${#numbers.formatDecimal(p.precio, 0, 'POINT', 2, 'COMMA')}"></p>
 
-                            <!-- Botones en la misma fila -->
                             <div class="d-flex justify-content-between align-items-center">
 
-                                <!-- Botón favorito -->
                                 <form th:action="@{/producto/favorito/{id}(id=${p.id})}" method="post">
                                     <button type="submit" class="btn btn-outline-danger btn-sm">
                                         Marcar favorito
                                     </button>
                                 </form>
 
-                                <!-- Botón carrito (si ya tienes /carrito/agregar) -->
                                 <a th:href="@{/carrito/agregar/{id}(id=${p.id})}"
                                    class="btn btn-outline-success btn-sm ms-2">
                                     <i class="fas fa-shopping-cart"></i>
@@ -139,7 +148,6 @@
             </div>
         </div>
 
-        <!-- Si no hay productos -->
         <div class="text-center p-3" th:if="${productos == null or productos.empty}">
             <span>No hay productos disponibles en este momento.</span>
         </div>

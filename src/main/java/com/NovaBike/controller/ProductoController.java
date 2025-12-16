@@ -44,7 +44,7 @@ public class ProductoController {
             String qLower = q.toLowerCase();
             productos = productos.stream()
                     .filter(p -> p.getNombre() != null
-                            && p.getNombre().toLowerCase().contains(qLower))
+                    && p.getNombre().toLowerCase().contains(qLower))
                     .toList();
             model.addAttribute("q", q);
         }
@@ -53,8 +53,8 @@ public class ProductoController {
         if (filtro.getMin() != null && filtro.getMax() != null) {
             productos = productos.stream()
                     .filter(p -> p.getPrecio() != null
-                            && p.getPrecio().compareTo(filtro.getMin()) >= 0
-                            && p.getPrecio().compareTo(filtro.getMax()) <= 0)
+                    && p.getPrecio().compareTo(filtro.getMin()) >= 0
+                    && p.getPrecio().compareTo(filtro.getMax()) <= 0)
                     .toList();
 
             model.addAttribute("min", filtro.getMin());
@@ -86,7 +86,7 @@ public class ProductoController {
 
     @PostMapping("/favorito/{id}")
     public String toggleFavorito(@PathVariable Integer id,
-                                 @RequestParam(required = false) String q) {
+            @RequestParam(required = false) String q) {
 
         favoritoService.toggleFavorito(id);
 
@@ -117,4 +117,11 @@ public class ProductoController {
         productoService.delete(id);
         return "redirect:/producto/agregar";
     }
+
+      @GetMapping("/reporte")   // 👈 AQUÍ EL CAMBIO
+    public String reporteStock(Model model) {
+        model.addAttribute("productos", productoService.getProductos());
+        return "producto/reporte";
+    }
+
 }
