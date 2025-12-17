@@ -1,130 +1,115 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
     <head th:fragment="head">
         <title>Nova Bike Shop</title>
         <meta charset="UTF-8"/>
+
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
         <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
             <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
             <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
             <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-
     </head>
+
     <body class="d-flex flex-column min-vh-100">
+
         <!-- HEADER -->
         <header th:fragment="header" class="header">
             <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #730202;">
                 <div class="container">
-                    <a th:href="@{/}" class="navbar-brand">Nova Bikes<br>Shop</a>
 
-                    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <a th:href="@{/}" class="navbar-brand">
+                        Nova Bikes<br>Shop
+                    </a>
+
+                    <button class="navbar-toggler" data-bs-toggle="collapse"
+                            data-bs-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <!-- Menú principal alineado a la izquierda -->
+
+                        <!-- MENÚ IZQUIERDO -->
                         <ul class="navbar-nav">
+
+                            <!-- Inicio: todos -->
                             <li class="nav-item px-2">
                                 <a class="nav-link" th:href="@{/}">Inicio</a>
                             </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link" th:href="@{/producto/listado}">Listado</a>
+
+                            <!-- Listado: USER, VENDEDOR, ADMIN -->
+                            <li class="nav-item px-2"
+                                sec:authorize="hasAnyRole('USER','VENDEDOR','ADMIN')">
+                                <a class="nav-link" th:href="@{/producto/listado}">
+                                    Listado
+                                </a>
                             </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link" th:href="@{/producto/agregar}">Agregar</a>
+
+                            <!-- Agregar: VENDEDOR y ADMIN -->
+                            <li class="nav-item px-2"
+                                sec:authorize="hasAnyRole('VENDEDOR','ADMIN')">
+                                <a class="nav-link" th:href="@{/producto/agregar}">
+                                    Agregar
+                                </a>
                             </li>
-                            <li class="nav-item px-2">
+
+                            <!-- Destacados: USER, VENDEDOR, ADMIN -->
+                            <li class="nav-item px-2"
+                                sec:authorize="hasAnyRole('USER','VENDEDOR','ADMIN')">
                                 <a class="nav-link" th:href="@{/producto/destacados}">
                                     Destacados
                                 </a>
                             </li>
-                            <!-- 🔹 Nueva opción: Reporte de Stock -->
-                            <li class="nav-item px-2">
-                                <a class="nav-link" th:href="@{/producto/reporte}">Reporte Stock</a>
+
+                            <!-- Reporte Stock: VENDEDOR y ADMIN -->
+                            <li class="nav-item px-2"
+                                sec:authorize="hasAnyRole('VENDEDOR','ADMIN')">
+                                <a class="nav-link" th:href="@{/producto/reporte}">
+                                    Reporte Stock
+                                </a>
                             </li>
 
                         </ul>
 
-                        <!-- Botones alineados a la derecha -->
+                        <!-- MENÚ DERECHO -->
                         <ul class="navbar-nav ms-auto">
-                            <li class="nav-item ms-2">
-                                <a class="btn btn-outline-light" th:href="@{/login}">logIn</a>
+
+                            <!-- LOGIN: solo NO autenticado -->
+                            <li class="nav-item ms-2"
+                                sec:authorize="!isAuthenticated()">
+                                <a class="btn btn-outline-light" th:href="@{/login}">
+                                    Log In
+                                </a>
                             </li>
 
-                            <!-- Menú desplegable sin dropdown, con emoji-->
-                            <li class="nav-item dropdown ms-3">
-                                <button class="btn btn-outline-light d-flex align-items-center gap-2" type="button"
-                                        id="menuBoton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Menú <span style="font-size: 1.2rem;">&#9776;</span>
-                                </button>
-
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuBoton">
-
-                                    <li>
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" th:href="@{/perfil}">
-                                            <div> 
-                                                <span class="me-2">Perfil</span>
-                                            </div>
-                                            <i class="bi bi-person-circle me-2"></i>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/favoritos">
-                                            <div> 
-                                                <span class="me-2">Artículos Favoritos</span>
-                                            </div>
-                                            <i class="bi bi-heart me-2"></i>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/top">
-                                            <div> 
-                                                <span class="me-2">Artículos Top</span>
-                                            </div>
-                                            <i class="bi bi-arrow-up-circle me-2"></i>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/pedidos">
-                                            <div> 
-                                                <span class="me-2">Mis Pedidos</span>
-                                            </div>
-                                            <i class="bi bi-box-seam me-2"></i>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="/ruta">
-                                            <div> 
-                                                <span class="me-2">Ruta Pedidos</span>
-                                            </div>
-                                            <i class="bi bi-truck me-2"></i>
-                                        </a>
-                                    </li>
-
-                                </ul>
+                            <!-- LOGOUT: solo autenticado -->
+                            <li class="nav-item ms-2"
+                                sec:authorize="isAuthenticated()">
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit"
+                                            class="btn btn-outline-warning">
+                                        Logout
+                                    </button>
+                                </form>
                             </li>
+
                         </ul>
+
                     </div>
                 </div>
             </nav>
         </header>
 
-        <main class="flex-grow-1 d-flex justify-content-center align-items-center text-white" style="height: 100vh;">
-            <h1 class="display-4">¿Se ve el fondo?</h1>
-        </main>
-
-
-
-        <!-- FOOTER PEGADO ABAJO -->
-        <footer class="p-2 bg-dark text-white text-center">
+        <!-- FOOTER -->
+        <footer th:fragment="footer"
+                class="p-2 bg-dark text-white text-center mt-auto">
             <p class="lead mb-0">Nova Bikes Shop &COPY;</p>
         </footer>
 

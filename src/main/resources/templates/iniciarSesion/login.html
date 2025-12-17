@@ -18,27 +18,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <div class="content-wrapper">
 
             <div class="container mt-5">
-<!--fila principal, pero como tiene justify-content-end, empuja el contenido (el formulario) hacia la derecha 
-por eso formulario en el lado derecho de la pantalla, y el lado izquierdo está vacío.-->
+                <!--fila principal, pero como tiene justify-content-end, empuja el contenido (el formulario) hacia la derecha 
+                por eso formulario en el lado derecho de la pantalla, y el lado izquierdo está vacío.-->
                 <div class="row">
-                    
-                    
+
+
                     <div class="col-md-6 d-flex align-items-center">
                         <div class="me-4">
                             <h3 class="texto-NovaBike"> 
                                 NovaBike<br>Shop
                             </h3>
-<!--llamamos clase texto bienvenida de css-->                           
+                            <!--llamamos clase texto bienvenida de css-->                           
                             <p class="texto-bienvenida">Le ayudamos a conseguir la mejor bicicleta acorde a tus capacidades y estilo de vida</p>
                             <p class="texto-bienvenida">Explora modelos, compará precios y busca los mejor accesorios para tu bicicleta aca en NovaBike tu tienda de confianza.</p>
                         </div>
                     </div>
-                    
-                    
-                    
+
+
+
                     <div class="col-md-6 login-box">
-                        
-                         <h2 class="mb-4">Iniciar sesión</h2>
+
+                        <h2 class="mb-4">Iniciar sesión</h2>
                         <form th:action="@{/login}" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Usuario</label>
@@ -48,20 +48,22 @@ por eso formulario en el lado derecho de la pantalla, y el lado izquierdo está 
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" required/>
                             </div>
-                            
-                            
+
+
                             <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
-                            
+
                             <div class="mt-3">
                                 <a th:href="@{/forgot-password}" class="text-primary text-decoration-underline">¿Olvidaste la contraseña?</a>
                             </div>
-                            
-                            
+
+
                         </form>
-                         
-                         <div class="mt-3">
-                             <a th:href="@{/registro}" class="btn boton-crear">Crear cuenta nueva</a>
-                         </div>
+
+
+
+                        <div class="mt-3">
+                            <a th:href="@{/registro/nuevo}" class="btn boton-crear">Crear cuenta nueva</a>
+                        </div>
 
 
                     </div>
