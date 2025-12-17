@@ -1,12 +1,32 @@
 <!DOCTYPE html>
-<!-- Esto es un comentario...  -->
-<html xmlns="http://www.3w.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springssecurity6">
-    <head th:replace="~{general/fragmentos :: head}"/>
-    <body>
-        <header th:replace="~{general/fragmentos :: header}"/>
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-        <footer th:replace="~{general/fragmentos :: footer}"/>
+    <head th:replace="~{general/fragmentos :: head}">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+        
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+<!-- CONTENIDO CENTRAL -->
+<main class="flex-grow-1" style="background-color: #565558; color: green;">
+    <div class="container py-3 text-center">
+
+        <h1 style="font-family: 'Playfair Display', serif; font-size: 3.2rem;">
+            Bienvenido a Nova Bikes Shop
+        </h1>
+
+        <p style="font-family: 'Poppins', sans-serif; font-size: 2rem;">
+            Explorá nuestros productos y encontrá tu próxima bicicleta.
+        </p>
+    </div>
+</main>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
     </body>
 </html>

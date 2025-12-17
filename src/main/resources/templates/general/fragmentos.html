@@ -22,7 +22,7 @@
 
         <!-- HEADER -->
         <header th:fragment="header" class="header">
-            <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #730202;">
+            <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #261f1f;">
                 <div class="container">
 
                     <a th:href="@{/}" class="navbar-brand">
@@ -45,10 +45,10 @@
                             </li>
 
                             <!-- Listado: USER, VENDEDOR, ADMIN -->
-                            <li class="nav-item px-2"
-                                sec:authorize="hasAnyRole('USER','VENDEDOR','ADMIN')">
+                            <li class="nav-item px-2">
+                                
                                 <a class="nav-link" th:href="@{/producto/listado}">
-                                    Listado
+                                    Productos
                                 </a>
                             </li>
 
@@ -61,8 +61,8 @@
                             </li>
 
                             <!-- Destacados: USER, VENDEDOR, ADMIN -->
-                            <li class="nav-item px-2"
-                                sec:authorize="hasAnyRole('USER','VENDEDOR','ADMIN')">
+                            <li class="nav-item px-2">
+                                
                                 <a class="nav-link" th:href="@{/producto/destacados}">
                                     Destacados
                                 </a>
