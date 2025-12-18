@@ -2,27 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{general/fragmentos :: head}"></head>
+    <head th:replace="~{general/fragmentos :: head}"></head>
 
-<body>
+    <body>
 
-<header th:replace="~{general/fragmentos :: header}"></header>
+        <header th:replace="~{general/fragmentos :: header}"></header>
 
-<section th:replace="~{producto/fragmentos :: tiendaSearchBar}"></section>
+        <section th:replace="~{producto/fragmentos :: tiendaSearchBar}"></section>
 
-<section class="container py-4">
-    <div class="row">
-
-    
-        <div th:replace="~{producto/fragmentos :: filtroPrecio}"></div>
+        <section class="container py-4">
+            <div class="row">
 
 
-        <div th:replace="~{producto/fragmentos :: listado}"></div>
+                <div th:replace="~{producto/fragmentos :: filtroPrecio}"></div>
 
-    </div>
-</section>
 
-<footer th:replace="~{general/fragmentos :: footer}"></footer>
+                <div th:replace="~{producto/fragmentos :: listado}"></div>
 
-</body>
+            </div>
+        </section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
 </html>
