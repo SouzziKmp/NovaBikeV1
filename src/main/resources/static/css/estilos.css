@@ -61,6 +61,15 @@ body {/*body tuneado*/
     font-style: italic;
 }
 
+.texto-NovaBikeWelcome {
+    background: linear-gradient(to right, #b31a10,#202423);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 4rem;
+    font-weight: bold;
+    font-style: italic;
+}
+
 
 
 .texto-bienvenida {
@@ -68,6 +77,59 @@ body {/*body tuneado*/
     font-size: 1rem;
     padding: 0px;
 }
+
+.btn-primary {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+
+.btn-primaryAgregarUser {
+    background-color: #f7f7f7 !important;
+    border-color: #000000 !important;
+    color: #000000 !important;
+}
+
+
+.fa-user-plus { /*emoji usuario*/
+    color: #000000;
+}
+
+.fa-user-group{/*emoji usuariogrupo contador*/
+    color: #000000;
+}
+
+.btn-fav {
+    background: linear-gradient(to right, #e02217, #2c3031); /*  rojo negro */
+    color: #ffffff;
+    border: none;
+}
+.btn-fav:hover {
+    background: linear-gradient(to right, #e02217, #2c3031);/* rojo negro */
+    
+}
+
+.btn-MisPedidos {
+    background: linear-gradient(to right, #00BFFF, #202423);/* cian gris */
+    color: #ffffff;
+    border: none;
+}
+.btn-MisPedidos:hover {
+    background: linear-gradient(to right, #00BFFF, #202423);/* cian gris */
+     
+}
+
+
+.tienda-titulo {
+    background: linear-gradient(to right, #1e0487, #0f0f0f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800; 
+    font-style: italic;
+}
+
 
 
 main {

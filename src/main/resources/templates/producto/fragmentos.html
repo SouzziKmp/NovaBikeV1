@@ -11,6 +11,9 @@
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    
+    <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/estilos.css">
 </head>
 
 <body>
@@ -33,12 +36,13 @@
 
     <div class="d-flex gap-2">
         <a th:href="@{/producto/listado(favoritos=true)}"
-           class="btn btn-outline-danger rounded-pill px-3">
-            Favoritos
+           class="btn btn-fav rounded-pill px-3">
+            Favoritos <i class="bi bi-star-fill"></i>
         </a>
 
-        <a th:href="@{/carrito/ver}" class="btn btn-outline-primary rounded-pill px-3">
-            Mis pedidos
+        <a th:href="@{/carrito/ver}" class="btn btn-MisPedidos rounded-pill px-3">
+            Mis pedidos <i class="fa-solid fa-bag-shopping"></i> 
+
         </a>
     </div>
 </form>
