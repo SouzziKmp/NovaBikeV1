@@ -11,6 +11,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     
     public Optional<Usuario> findByUsernameAndActivoTrue(String username);
     
+    public List<Usuario> findByActivoTrueAndCorreoIsNotNull();
+    
     public List<Usuario> findByActivoTrue();
 
     public Optional<Usuario> findByUsername(String username);

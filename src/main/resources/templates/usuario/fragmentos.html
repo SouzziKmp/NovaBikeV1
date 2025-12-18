@@ -8,21 +8,91 @@
         <!-- fragmento 1 para Agregar usuario en ventana modal -->
         <section th:fragment="agregar">
             <!-- Button trigger modal -->
-            <div class='row py-4 mb-2' style="background-color: #565558;">
-                <div class='col-md-1'></div>
-                <div class='col-md-3'  sec:authorize="hasRole('ROLE_ADMIN')">
-                    <button type="button" class="btn btn-primaryAgregarUser"  sec:authorize="hasRole('ROLE_ADMIN')"
-                            data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
-                        <i class="fa-solid fa-user-plus"></i> [[#{usuario.agregar}]]
+            <div class="row py-3 mb-3" style="background-color: #565558;">
+
+                <!-- Botón Crear Usuario -->
+                <div class="col-md-2">
+                    <button type="button"
+                            class="btn btn-light"
+                            data-bs-toggle="modal"
+                            data-bs-target="#agregarUsuarioModal">
+                        <i class="fa-solid fa-user-plus"></i> Crear Usuario
                     </button>
                 </div>
+
+                <!-- Botón Enviar Ofertas (solo admin) -->
+                <div class="col-md-3" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <button type="button"
+                            class="btn btn-light"
+                            data-bs-toggle="modal"
+                            data-bs-target="#ofertaModal">
+                        <i class="fa-solid fa-envelope"></i> Enviar ofertas
+                    </button>
+                </div>
+
             </div>
+
+
+            <div class="modal fade" id="ofertaModal" tabindex="-1"
+                 aria-labelledby="ofertaModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title" id="ofertaModalLabel">
+                                <i class="fa-solid fa-bullhorn"></i> Enviar ofertas a todos
+                            </h5>
+                            <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <form th:action="@{/ofertas/enviar}" method="post">
+                            <div class="modal-body">
+
+                                <div class="mb-3">
+                                    <label class="form-label">Asunto</label>
+                                    <input type="text"
+                                           name="asunto"
+                                           class="form-control"
+                                           required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Mensaje (HTML permitido)</label>
+                                    <textarea name="mensaje"
+                                              class="form-control"
+                                              rows="6"
+                                              required>
+                                        <h2> Ofertas NovaBike </h2>
+                                        <p>No te pierdas nuestros descuentos</p>
+                                    </textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa-solid fa-paper-plane"></i> Enviar
+                                </button>
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
             <!-- Modal -->
             <div class="modal fade" id="agregarUsuarioModal"  tabindex="-1" 
                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header bg-info text-white">
+                        <div class="modal-header bg-dark text-white">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">
                                 <i class="fa-solid fa-layer-group"></i> [[#{usuario.agregar}]]</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
