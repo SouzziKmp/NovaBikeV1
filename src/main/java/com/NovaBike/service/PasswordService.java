@@ -1,58 +1,90 @@
-
 package com.NovaBike.service;
 
+import com.NovaBike.domain.PasswordResetToken;
+import com.NovaBike.domain.Usuario;
+import com.NovaBike.repository.PasswordResetTokenRepository;
+import com.NovaBike.repository.UsuarioRepository;
 import com.NovaBike.security.TokenGenerator;
+import java.time.LocalDateTime;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PasswordService {
 
     private final JavaMailSender mailSender;
+    private final PasswordResetTokenRepository tokenRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public PasswordService(JavaMailSender mailSender) {
+    public PasswordService(JavaMailSender mailSender,
+                           PasswordResetTokenRepository tokenRepository,
+                           UsuarioRepository usuarioRepository,
+                           PasswordEncoder passwordEncoder) {
+
         this.mailSender = mailSender;
+        this.tokenRepository = tokenRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void enviarCorreoRecuperacion(String email) {
 
-        //  Generar token único
+        // Buscar Usuario
+        Usuario usuario = usuarioRepository.findByUsernameOrCorreo(email, email)
+        .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+
+        // generar Token
         String token = TokenGenerator.generarToken();
 
-        //  URL de recuperación
+        // Crear y guardar Token
+        PasswordResetToken resetToken = new PasswordResetToken();
+        resetToken.setToken(token);
+        resetToken.setUsuario(usuario);
+        resetToken.setExpiration(LocalDateTime.now().plusMinutes(30));
+
+        tokenRepository.save(resetToken);
+
+        // URL
         String url = "http://localhost:80/reset-password?token=" + token;
 
-        //  Crear el mensaje
+        // Enviar Correo 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("Recuperación de contraseña - NovaBike");
         message.setText("""
                 Has solicitado restablecer tu contraseña.
 
-                Haz clic en el siguiente enlace para continuar:
+                Haz clic en el siguiente enlace:
                 """ + url + """
 
-                Si no solicitaste este cambio, ignora este mensaje.
+                El enlace expira en 30 minutos.
                 """);
 
-        //  Enviar correo
         mailSender.send(message);
-
-        System.out.println("Correo de recuperación enviado a: " + email);
-        System.out.println("Token generado: " + token);
     }
 
     public void restablecerPassword(String token, String password) {
-        System.out.println("Token recibido" + token);
-        System.out.println("Nueva contraseña" + password);
 
-        // 1. Buscar el token en la base de datos (falta)
-        // 2. Buscar el usuario asociado          (falta)
-        // 3. Encriptar la nueva contraseña       (falta)
-        // 4. Guardarla en la BD                  (falta)
-        // 5. Invalidar el token                  (falta)
-        
-        System.out.println("Metodo restablacerPassword ejecutado correctamente(aun no funciona)");
+        // BuscarToken
+        PasswordResetToken resetToken = tokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Token inválido"));
+
+        // Validar Expiracion
+        if (resetToken.getExpiration().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Token expirado");
+        }
+
+        // Obtener Usuario
+        Usuario usuario = resetToken.getUsuario();
+
+        // Encriptar Password
+        usuario.setPassword(passwordEncoder.encode(password));
+        usuarioRepository.save(usuario);
+
+        //Invalidar Token
+        tokenRepository.delete(resetToken);
     }
 }

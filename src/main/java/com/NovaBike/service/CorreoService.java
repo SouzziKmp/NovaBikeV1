@@ -22,7 +22,7 @@ public class CorreoService {
         MimeMessage mensaje = mailSender.createMimeMessage();
         MimeMessageHelper correo = new MimeMessageHelper(mensaje, true);
   
-//preguntarle al profe el viernes 
+
         correo.setFrom("stevenska8@gmail.com");
         correo.setTo(para);
         
