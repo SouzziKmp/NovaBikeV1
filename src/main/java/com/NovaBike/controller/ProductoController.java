@@ -118,10 +118,16 @@ public class ProductoController {
         return "redirect:/producto/agregar";
     }
 
-      @GetMapping("/reporte")   // 👈 AQUÍ EL CAMBIO
+    @GetMapping("/reporte")   // 👈 AQUÍ EL CAMBIO
     public String reporteStock(Model model) {
         model.addAttribute("productos", productoService.getProductos());
         return "producto/reporte";
+    }
+
+    @GetMapping("/producto/listado")
+    public String listado(Model model) {
+        model.addAttribute("productos", productoService.getProductos());
+        return "producto/listado";
     }
 
 }

@@ -28,15 +28,16 @@ public class FacturaService {
 
     private final FacturaRepository facturaRepository;
     private final VentaRepository ventaRepository;
-    private final ProductoRepository productoRepository;
+    private final ProductoService productoService;
 
     public FacturaService(
             FacturaRepository facturaRepository,
             VentaRepository ventaRepository,
-            ProductoRepository productoRepository) {
+            ProductoService productoService) {
+
         this.facturaRepository = facturaRepository;
         this.ventaRepository = ventaRepository;
-        this.productoRepository = productoRepository;
+        this.productoService = productoService;
     }
 
     @Transactional
@@ -44,7 +45,7 @@ public class FacturaService {
             Usuario usuario,
             List<ItemCarrito> carrito) {
 
-        //Crear Factura
+        // Crear Factura
         Factura factura = new Factura();
         factura.setUsuario(usuario);
         factura.setEstado(EstadoFactura.ACTIVA);
@@ -52,13 +53,19 @@ public class FacturaService {
 
         BigDecimal total = BigDecimal.ZERO;
 
-        // Guardar Factura primero
+        // Guardar factura primero
         facturaRepository.save(factura);
 
-        // Crear Ventas
+        // Crear ventas
         for (ItemCarrito item : carrito) {
 
             Producto producto = item.getProducto();
+
+            // Validar y descontar stock
+            productoService.descontarStock(
+                    producto.getId(),
+                    item.getCantidad()
+            );
 
             Venta venta = new Venta();
             venta.setFactura(factura);
@@ -69,30 +76,23 @@ public class FacturaService {
 
             ventaRepository.save(venta);
 
-            // Calcular el total
             total = total.add(
                     producto.getPrecio()
                             .multiply(BigDecimal.valueOf(item.getCantidad()))
             );
-
-            // Menejar Stock
-            // producto.setStock(producto.getStock() - item.getCantidad());
-            // productoRepository.save(producto);
         }
 
-        // Guardar factura actual
         factura.setTotal(total);
         facturaRepository.save(factura);
 
         return factura;
     }
-    
-    @Transactional(readOnly = true)
-public Factura getFacturaConVentas(Integer idFactura) {
-    return facturaRepository.findByIdFacturaConDetalle(idFactura)
-            .orElseThrow(() ->
-                new RuntimeException("Factura no encontrada con id " + idFactura)
-            );
-}
 
+    @Transactional(readOnly = true)
+    public Factura getFacturaConVentas(Integer idFactura) {
+        return facturaRepository.findByIdFacturaConDetalle(idFactura)
+                .orElseThrow(() ->
+                        new RuntimeException("Factura no encontrada con id " + idFactura)
+                );
+    }
 }

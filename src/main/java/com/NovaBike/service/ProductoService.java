@@ -18,30 +18,26 @@ public class ProductoService {
     private ProductoRepository productoRepository;
 
     @Autowired
-    private FirebaseStorageService firebaseStorageService; 
+    private FirebaseStorageService firebaseStorageService;
 
     @Transactional(readOnly = true)
     public List<Producto> getProductos() {
         return productoRepository.findAll();
     }
 
-
     @Transactional(readOnly = true)
     public Producto getProducto(Integer id) {
         return productoRepository.findById(id).orElse(null);
     }
 
- 
-
-      @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<Producto> getDestacados() {
         return productoRepository.findByDestacadoTrue();
     }
-    
+
     @Transactional
     public void save(Producto producto, MultipartFile imageFile) {
 
-        
         producto = productoRepository.save(producto);
 
         if (imageFile != null && !imageFile.isEmpty()) {
@@ -58,23 +54,39 @@ public class ProductoService {
             }
         }
     }
-    
+
     public BigDecimal calcularPrecioConDescuento(Producto p) {
-    if (p.getDescuento() <= 0) {
-        return p.getPrecio();
+        if (p.getDescuento() <= 0) {
+            return p.getPrecio();
+        }
+
+        BigDecimal porcentaje = BigDecimal
+                .valueOf(p.getDescuento())
+                .divide(BigDecimal.valueOf(100));
+
+        BigDecimal rebaja = p.getPrecio().multiply(porcentaje);
+
+        return p.getPrecio().subtract(rebaja);
     }
 
-    BigDecimal porcentaje = BigDecimal
-            .valueOf(p.getDescuento())
-            .divide(BigDecimal.valueOf(100));
-
-    BigDecimal rebaja = p.getPrecio().multiply(porcentaje);
-
-    return p.getPrecio().subtract(rebaja);
-}
     @Transactional
     public void delete(Integer id) {
         productoRepository.deleteById(id);
     }
 
+    @Transactional
+    public void descontarStock(Integer idProducto, int cantidad) {
+
+        Producto producto = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new RuntimeException("Producto no existe"));
+
+        if (producto.getStock() < cantidad) {
+            throw new RuntimeException(
+                    "Stock insuficiente para el producto: " + producto.getNombre()
+            );
+        }
+
+        producto.setStock(producto.getStock() - cantidad);
+        productoRepository.save(producto);
+    }
 }
