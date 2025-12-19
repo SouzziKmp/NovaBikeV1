@@ -130,7 +130,21 @@ body {/*body tuneado*/
     font-style: italic;
 }
 
+.bg-CuadroBuscarRoles{
+    background: linear-gradient(to right, #050505, #a80b02);
+}
 
+.btn-BotonBuscar{
+    background: linear-gradient(to right, #454444, #7d7d7d);
+}
+
+.bg-UserResultado{
+    background: linear-gradient(to right, #050505, #a80b02);
+}
+
+.bg-UserRoles{
+    background: linear-gradient(to right, #525151, #a80b02);
+}
 
 main {
   background-image: url('test1.jpg');
