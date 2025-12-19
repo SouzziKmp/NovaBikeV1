@@ -33,5 +33,8 @@ public class Producto implements Serializable {
 
     @Column(nullable = false)
     private int descuento;
+    
+    @Column (nullable = false)
+    private int stock;
 
 }

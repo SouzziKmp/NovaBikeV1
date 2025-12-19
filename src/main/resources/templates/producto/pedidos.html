@@ -21,20 +21,35 @@
                                 <th>Imagen</th>
                                 <th>Producto</th>
                                 <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="p : ${carrito}" class="text-center">
+                            <tr th:each="item : ${carrito}" class="text-center">
                                 <td>
-                                    <img th:src="@{${p.rutaImagen}}" alt="Producto"
+                                    <img th:src="@{${item.producto.rutaImagen}}"
+                                         alt="Producto"
                                          style="width: 80px; height: 80px; object-fit: cover;"
                                          class="rounded"/>
                                 </td>
-                                <td th:text="${p.nombre}">Nombre del producto</td>
-                                <td th:text="'₡' + ${#numbers.formatDecimal(p.precio, 0, 'POINT', 2, 'COMMA')}"></td>
+
+                                <td th:text="${item.producto.nombre}"></td>
+
+                                <td th:text="'₡' + ${#numbers.formatDecimal(item.producto.precio, 0, 'POINT', 2, 'COMMA')}"></td>
+
+                                <td th:text="${item.cantidad}"></td>
+
+                                <!-- SUBTOTAL -->
+                                <td th:text="'₡' + ${#numbers.formatDecimal(
+                                    item.producto.precio * item.cantidad,
+                                    0, 'POINT', 2, 'COMMA')}">
+                                </td>
+
+                                <!-- ACCIONES -->
                                 <td>
-                                    <a th:href="@{/carrito/eliminar/{id}(id=${p.id})}"
+                                    <a th:href="@{/carrito/eliminar/{id}(id=${item.producto.id})}"
                                        class="btn btn-outline-danger btn-sm">
                                         <i class="fas fa-trash"></i> Eliminar
                                     </a>
@@ -56,8 +71,8 @@
                             <i class="fas fa-arrow-left"></i> Seguir comprando
                         </a>
 
-                        <a href="#" class="btn btn-success">
-                            <i class="fas fa-credit-card"></i> Finalizar compra
+                        <a th:href="@{/carrito/confirmar}" class="btn btn-success">
+                            <i class="fas fa-file-invoice-dollar"></i> Facturar
                         </a>
                     </div>
                 </div>
